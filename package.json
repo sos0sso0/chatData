@@ -1,0 +1,28 @@
+{
+  "name": "chatdata",
+  "version": "1.0.0",
+  "description": "基于 Coze AGENT 的智能数据分析 Web 应用，支持 CSV 和 Excel 文件的本地分析。",
+  "main": "app.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sos0sso0/chatData.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sos0sso0/chatData/issues"
+  },
+  "homepage": "https://github.com/sos0sso0/chatData#readme",
+  "dependencies": {
+    "papaparse": "^5.5.3",
+    "xlsx": "^0.18.5"
+  }
+}
