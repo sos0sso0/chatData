@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据分析工具 - Data Analysis Tool</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 数据分析工具</h1>
+            <p>上传您的 CSV 文件进行智能分析</p>
+        </header>
+
+        <div class="info-banner">
+            <h3>ℹ️ 重要提示</h3>
+            <p>为确保安全，本应用当前仅支持 <strong>CSV 格式</strong>。Excel 支持将在相关库漏洞修复后恢复。</p>
+        </div>
+
+        <main>
+            <div class="upload-section">
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileInput" accept=".csv" />
+                    <label for="fileInput" class="file-label">
+                        <span class="upload-icon">📁</span>
+                        <span class="upload-text">选择文件或拖拽到这里</span>
+                        <span class="file-info">仅支持 CSV 格式</span>
+                    </label>
+                </div>
+                <div id="fileName" class="file-name"></div>
+            </div>
+
+            <div class="config-section">
+                <h3>API 配置</h3>
+                <div class="form-group">
+                    <label for="apiToken">API Token:</label>
+                    <input type="password" id="apiToken" placeholder="输入您的 Bearer Token" />
+                    <button type="button" class="btn-secondary" id="toggleToken">显示</button>
+                </div>
+                <div class="form-group">
+                    <label for="analysisPrompt">分析需求:</label>
+                    <textarea id="analysisPrompt" rows="3" placeholder="例如：请分析这个数据集的统计特征，找出异常值和趋势"></textarea>
+                </div>
+            </div>
+
+            <div class="action-section">
+                <button id="analyzeBtn" class="btn-primary" disabled>
+                    <span class="btn-text">开始分析</span>
+                    <span class="spinner" style="display: none;">⏳</span>
+                </button>
+            </div>
+
+            <div id="resultSection" class="result-section" style="display: none;">
+                <h3>分析结果</h3>
+                <div id="resultContent" class="result-content"></div>
+            </div>
+
+            <div id="errorSection" class="error-section" style="display: none;">
+                <h3>⚠️ 错误信息</h3>
+                <div id="errorContent" class="error-content"></div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by Coze AGENT | <a href="https://github.com/sos0sso0/chatData" target="_blank">GitHub</a> | 仅支持 CSV 格式</p>
+        </footer>
+    </div>
+
+    <script src="lib/papaparse.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
