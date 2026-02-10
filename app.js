@@ -2,14 +2,14 @@
 const state = {
     fileData: null,
     fileName: null,
-    fileType: null
+    fileType: 'csv'
 };
 
 // Configuration
 const CONFIG = {
     MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB limit
     MAX_ROWS: 10000, // Maximum rows to process
-    ALLOWED_EXTENSIONS: ['csv', 'xlsx', 'xls']
+    ALLOWED_EXTENSIONS: ['csv']
 };
 
 // DOM Elements
@@ -80,38 +80,14 @@ async function handleFileSelect(event) {
 
     // Validate file extension
     if (!CONFIG.ALLOWED_EXTENSIONS.includes(extension)) {
-        showError('不支持的文件格式。请选择 CSV 或 Excel 文件。');
+        showError('不支持的文件格式。当前仅支持 CSV 文件。Excel 支持将在相关库安全漏洞修复后恢复。');
         resetFileState();
         return;
     }
 
-    // Show Excel security warning
-    if (extension === 'xlsx' || extension === 'xls') {
-        const confirmUpload = confirm(
-            '⚠️ 安全警告\n\n' +
-            'Excel 文件解析库存在已知安全漏洞（CVE-2023-xxxx）。\n\n' +
-            '请确认：\n' +
-            '1. 此文件来自可信来源\n' +
-            '2. 文件未经第三方修改\n' +
-            '3. 您了解潜在的安全风险\n\n' +
-            '建议：使用 CSV 格式可避免此风险。\n\n' +
-            '是否继续？'
-        );
-        
-        if (!confirmUpload) {
-            resetFileState();
-            return;
-        }
-    }
-
     try {
-        if (extension === 'csv') {
-            state.fileType = 'csv';
-            await readCSVFile(file);
-        } else if (extension === 'xlsx' || extension === 'xls') {
-            state.fileType = 'excel';
-            await readExcelFile(file);
-        }
+        state.fileType = 'csv';
+        await readCSVFile(file);
 
         // Validate data size
         if (state.fileData && state.fileData.length > CONFIG.MAX_ROWS) {
@@ -148,36 +124,6 @@ function readCSVFile(file) {
             },
             skipEmptyLines: true
         });
-    });
-}
-
-// Read Excel file
-function readExcelFile(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        
-        reader.onload = (e) => {
-            try {
-                const data = new Uint8Array(e.target.result);
-                const workbook = XLSX.read(data, { type: 'array' });
-                
-                // Get the first sheet
-                const firstSheetName = workbook.SheetNames[0];
-                const worksheet = workbook.Sheets[firstSheetName];
-                
-                // Convert to JSON
-                state.fileData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-                resolve();
-            } catch (error) {
-                reject(error);
-            }
-        };
-        
-        reader.onerror = () => {
-            reject(new Error('文件读取失败'));
-        };
-        
-        reader.readAsArrayBuffer(file);
     });
 }
 

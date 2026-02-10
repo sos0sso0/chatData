@@ -10,22 +10,22 @@
     <div class="container">
         <header>
             <h1>📊 数据分析工具</h1>
-            <p>上传您的 CSV 或 Excel 文件进行智能分析</p>
+            <p>上传您的 CSV 文件进行智能分析</p>
         </header>
 
-        <div class="security-warning">
-            <h3>⚠️ 安全提示</h3>
-            <p>由于 Excel 解析库存在已知安全漏洞，<strong>请仅上传您信任的文件</strong>。恶意构造的 Excel 文件可能造成安全风险。建议使用 CSV 格式以获得最佳安全性。</p>
+        <div class="info-banner">
+            <h3>ℹ️ 重要提示</h3>
+            <p>为确保安全，本应用当前仅支持 <strong>CSV 格式</strong>。Excel 支持将在相关库漏洞修复后恢复。</p>
         </div>
 
         <main>
             <div class="upload-section">
                 <div class="file-input-wrapper">
-                    <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" />
+                    <input type="file" id="fileInput" accept=".csv" />
                     <label for="fileInput" class="file-label">
                         <span class="upload-icon">📁</span>
                         <span class="upload-text">选择文件或拖拽到这里</span>
-                        <span class="file-info">支持 CSV 和 Excel 格式</span>
+                        <span class="file-info">仅支持 CSV 格式</span>
                     </label>
                 </div>
                 <div id="fileName" class="file-name"></div>
@@ -63,11 +63,10 @@
         </main>
 
         <footer>
-            <p>Powered by Coze AGENT | <a href="https://github.com/sos0sso0/chatData" target="_blank">GitHub</a></p>
+            <p>Powered by Coze AGENT | <a href="https://github.com/sos0sso0/chatData" target="_blank">GitHub</a> | 仅支持 CSV 格式</p>
         </footer>
     </div>
 
-    <script src="lib/xlsx.full.min.js"></script>
     <script src="lib/papaparse.min.js"></script>
     <script src="app.js"></script>
 </body>

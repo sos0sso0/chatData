@@ -77,6 +77,29 @@ header p {
     color: #991b1b;
 }
 
+.info-banner {
+    background: #eff6ff;
+    border-left: 4px solid #3b82f6;
+    padding: 20px 30px;
+    margin: 0;
+}
+
+.info-banner h3 {
+    color: #1e40af;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.info-banner p {
+    color: #1e3a8a;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.info-banner strong {
+    color: #1e40af;
+}
+
 main {
     padding: 40px 30px;
 }
