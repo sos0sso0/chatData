@@ -5,6 +5,13 @@ const state = {
     fileType: null
 };
 
+// Configuration
+const CONFIG = {
+    MAX_FILE_SIZE: 10 * 1024 * 1024, // 10MB limit
+    MAX_ROWS: 10000, // Maximum rows to process
+    ALLOWED_EXTENSIONS: ['csv', 'xlsx', 'xls']
+};
+
 // DOM Elements
 const fileInput = document.getElementById('fileInput');
 const fileNameDisplay = document.getElementById('fileName');
@@ -61,8 +68,41 @@ async function handleFileSelect(event) {
     hideError();
     hideResult();
 
+    // Validate file size
+    if (file.size > CONFIG.MAX_FILE_SIZE) {
+        showError(`文件过大。最大允许 ${CONFIG.MAX_FILE_SIZE / 1024 / 1024}MB，当前文件大小：${(file.size / 1024 / 1024).toFixed(2)}MB`);
+        resetFileState();
+        return;
+    }
+
     state.fileName = file.name;
     const extension = file.name.split('.').pop().toLowerCase();
+
+    // Validate file extension
+    if (!CONFIG.ALLOWED_EXTENSIONS.includes(extension)) {
+        showError('不支持的文件格式。请选择 CSV 或 Excel 文件。');
+        resetFileState();
+        return;
+    }
+
+    // Show Excel security warning
+    if (extension === 'xlsx' || extension === 'xls') {
+        const confirmUpload = confirm(
+            '⚠️ 安全警告\n\n' +
+            'Excel 文件解析库存在已知安全漏洞（CVE-2023-xxxx）。\n\n' +
+            '请确认：\n' +
+            '1. 此文件来自可信来源\n' +
+            '2. 文件未经第三方修改\n' +
+            '3. 您了解潜在的安全风险\n\n' +
+            '建议：使用 CSV 格式可避免此风险。\n\n' +
+            '是否继续？'
+        );
+        
+        if (!confirmUpload) {
+            resetFileState();
+            return;
+        }
+    }
 
     try {
         if (extension === 'csv') {
@@ -71,12 +111,22 @@ async function handleFileSelect(event) {
         } else if (extension === 'xlsx' || extension === 'xls') {
             state.fileType = 'excel';
             await readExcelFile(file);
-        } else {
-            showError('不支持的文件格式。请选择 CSV 或 Excel 文件。');
-            return;
         }
 
-        fileNameDisplay.textContent = `✓ 已选择文件: ${state.fileName}`;
+        // Validate data size
+        if (state.fileData && state.fileData.length > CONFIG.MAX_ROWS) {
+            const confirmLarge = confirm(
+                `文件包含 ${state.fileData.length} 行数据，超过建议的 ${CONFIG.MAX_ROWS} 行限制。\n\n` +
+                `处理大文件可能影响性能。是否继续？`
+            );
+            
+            if (!confirmLarge) {
+                resetFileState();
+                return;
+            }
+        }
+
+        fileNameDisplay.textContent = `✓ 已选择文件: ${state.fileName} (${(file.size / 1024).toFixed(2)} KB, ${state.fileData.length} 行)`;
         fileNameDisplay.classList.add('show');
         updateAnalyzeButton();
     } catch (error) {

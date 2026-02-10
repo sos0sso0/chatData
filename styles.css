@@ -54,6 +54,29 @@ header p {
     opacity: 0.95;
 }
 
+.security-warning {
+    background: #fef2f2;
+    border-left: 4px solid #dc2626;
+    padding: 20px 30px;
+    margin: 0;
+}
+
+.security-warning h3 {
+    color: #991b1b;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.security-warning p {
+    color: #7f1d1d;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.security-warning strong {
+    color: #991b1b;
+}
+
 main {
     padding: 40px 30px;
 }
