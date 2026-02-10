@@ -18,6 +18,8 @@ const errorSection = document.getElementById('errorSection');
 const errorContent = document.getElementById('errorContent');
 
 // API Configuration
+// Note: These credentials are provided by the repository owner for this specific Coze AGENT instance
+// Users will need to provide their own API token when using the application
 const API_CONFIG = {
     endpoint: 'https://5fx7r5n26y.coze.site/stream_run',
     sessionId: '21N-hn6wRX0Vt3lplTX5B',

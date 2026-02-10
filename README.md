@@ -120,6 +120,15 @@ const API_CONFIG = {
 - API Token 仅在浏览器本地使用，不会被存储
 - 文件数据在浏览器中本地读取，不会上传到服务器
 - 建议使用 HTTPS 访问应用
+- **重要**: 仅上传您信任的 CSV 和 Excel 文件。SheetJS 库 (v0.18.5) 存在已知漏洞 ([GHSA-4r6h-8v6p-xvw6](https://github.com/advisories/GHSA-4r6h-8v6p-xvw6), [GHSA-5pgg-2g8v-p4x9](https://github.com/advisories/GHSA-5pgg-2g8v-p4x9))，恶意构造的文件可能造成安全风险。这些漏洞将在 SheetJS 发布新版本后修复。
+
+## 依赖安全
+
+当前使用的依赖包括:
+- **papaparse**: 用于解析 CSV 文件 (无已知漏洞)
+- **xlsx** v0.18.5: 用于解析 Excel 文件 (存在高危漏洞，建议仅处理受信任的文件)
+
+我们正在跟踪 SheetJS 的更新，一旦新版本发布将立即升级。
 
 ## 许可证
 
